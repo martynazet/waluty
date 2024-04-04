@@ -8,24 +8,18 @@ def get_data():
 
     rates = data[0]['rates']
     fields = ['currency', 'code', 'bid', 'ask']
+    currency_dict = {}
 
+    for i in rates:
+        currency_dict[i['currency']] = i['ask']
+
+    
     with open('bank.csv', 'w', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=fields, delimiter=';')
         writer.writeheader()
         writer.writerows(rates)
-
-
-    with open('bank.csv', 'r') as read_file:
-        reader = csv.reader(read_file, delimiter=';')
-        line_count = 0
-        currency_dict = {}
-        for row in reader:
-            if line_count == 0:
-                print(f'Nazwy kolumn to {"".join(row)}')
-                line_count += 1
-            else:
-                currency_dict[row[0]] = row[3]
-
+       
+     
     return currency_dict
 
 
@@ -46,3 +40,4 @@ def converter():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
